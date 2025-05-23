@@ -7,6 +7,8 @@ import itertools
 from collections import Counter
 from collections import deque
 
+#uv init (python 3.12)
+#uv pip install opencv-python numpy mediapipe tensorflow
 import cv2 as cv
 import numpy as np
 import mediapipe as mp
@@ -61,7 +63,7 @@ def main():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands(
         static_image_mode=use_static_image_mode,
-        max_num_hands=1,
+        max_num_hands=2,
         min_detection_confidence=min_detection_confidence,
         min_tracking_confidence=min_tracking_confidence,
     )
@@ -502,12 +504,12 @@ def draw_info_text(image, brect, handedness, hand_sign_text,
     cv.putText(image, info_text, (brect[0] + 5, brect[1] - 4),
                cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv.LINE_AA)
 
-    if finger_gesture_text != "":
-        cv.putText(image, "Finger Gesture:" + finger_gesture_text, (10, 60),
-                   cv.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 4, cv.LINE_AA)
-        cv.putText(image, "Finger Gesture:" + finger_gesture_text, (10, 60),
-                   cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2,
-                   cv.LINE_AA)
+    # if finger_gesture_text != "":
+    #     cv.putText(image, "Finger Gesture:" + finger_gesture_text, (10, 60),
+    #                cv.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 4, cv.LINE_AA)
+    #     cv.putText(image, "Finger Gesture:" + finger_gesture_text, (10, 60),
+    #                cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2,
+    #                cv.LINE_AA)
 
     return image
 
@@ -516,7 +518,7 @@ def draw_point_history(image, point_history):
     for index, point in enumerate(point_history):
         if point[0] != 0 and point[1] != 0:
             cv.circle(image, (point[0], point[1]), 1 + int(index / 2),
-                      (152, 251, 152), 2)
+                      (0, 0, 255), 5)
 
     return image
 
@@ -528,14 +530,14 @@ def draw_info(image, fps, mode, number):
                1.0, (255, 255, 255), 2, cv.LINE_AA)
 
     mode_string = ['Logging Key Point', 'Logging Point History']
-    if 1 <= mode <= 2:
-        cv.putText(image, "MODE:" + mode_string[mode - 1], (10, 90),
-                   cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1,
-                   cv.LINE_AA)
-        if 0 <= number <= 9:
-            cv.putText(image, "NUM:" + str(number), (10, 110),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1,
-                       cv.LINE_AA)
+    # if 1 <= mode <= 2:
+    #     cv.putText(image, "MODE:" + mode_string[mode - 1], (10, 90),
+    #                cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1,
+    #                cv.LINE_AA)
+    #     if 0 <= number <= 9:
+    #         cv.putText(image, "NUM:" + str(number), (10, 110),
+    #                    cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1,
+    #                    cv.LINE_AA)
     return image
 
 
